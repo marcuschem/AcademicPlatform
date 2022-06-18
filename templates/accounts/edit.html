@@ -9,7 +9,7 @@
 {% block body %}
     <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
         <div class="row mt-5 mb-5 col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in user_form %}
                     <div class="form-group">
@@ -21,7 +21,7 @@
                         {{ field.label }} {{ field }}
                     </div>
                 {% endfor %}
-                 <input class="btn btn-outline-danger my-3" type="button" id="add_more" value="Guardar"/>
+                 <button type="submit" class="btn btn-success m-2">Guardar</button>
             </form>
         </div>
     </main>

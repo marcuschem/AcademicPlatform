@@ -18,7 +18,8 @@ class ProfileEditForm(ModelForm):
                 "class": "form-control"
             }),
             "date_of_birth": forms.DateInput(attrs={
-                "class": "form-control"
+                "class": "form-control",
+                "type": "date"
             }),
             "photo": forms.FileInput(attrs={
                 "class": "form-control"

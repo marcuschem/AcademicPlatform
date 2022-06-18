@@ -34,7 +34,10 @@ class EditProfileView(View):
             if user_form.is_valid() and profile_form.is_valid():
                 user_form.save()
                 profile_form.save()
-            return HttpResponseRedirect(reverse_lazy(self.success_url))
+                return HttpResponseRedirect(reverse_lazy(self.success_url, kwargs={
+                    "user_id": request.user.id
+                }))
+            return HttpResponseRedirect(reverse_lazy("login"))
         return HttpResponseRedirect(reverse_lazy("login"))
 
 
