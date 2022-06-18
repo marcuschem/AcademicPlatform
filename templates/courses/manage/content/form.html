@@ -1,0 +1,32 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    {% if object %}
+    Editar contenido "{{ object.title }}"
+    {% else %}
+    Añadir nuevo contenido
+    {% endif %}
+{% endblock %}
+{% block signup %} /{{ user_id}}/profile {% endblock %}
+{% block signuptext %} Perfil {% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="sign-up mt-5 mb-5 col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5">
+            <h2>
+                {% if object %}
+                Editar contenido "{{ object.title }}"
+                {% else %}
+                Añadir nuevo
+                {% endif %}
+            </h2>
+            <form class="justify-self-center" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">{{ field.label }}{{ field }}</div>
+                {% endfor %}
+                <button type="submit" class="btn btn-outline-success m-2">Guardar</button>
+            </form>
+        </div>
+    </main>
+{% endblock %}

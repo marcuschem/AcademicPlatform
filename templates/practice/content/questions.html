@@ -1,0 +1,26 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+{{ question.title }}
+{% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="container-fluid mt-5 mb-5 pt-5 pb-5">
+        <div class="container mt-5 mb-5 px-5">
+            <article class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <h1 class="text-center text-success">{{ question.title }}</h1>
+                </div>
+            </article>
+            <div class="nav m-5">
+                <div class="btn-group d-flex justify-content-center col-6 offset-3">
+                    <a href="{% url 'module_question_content_list' question.id %}" class="btn btn-outline-danger m-2">Actualizar</a>
+                    <a href="{% url 'manage_question_delete' question.module_id question.id %}" class="btn btn-outline-danger m-2">Eliminar</a>
+                    {% if lecture.question.count > 0 %}
+                        <a class="btn btn-outline-danger m-2" href="{% url "module_question_list" question.first.id %}">Manejar contenidos</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

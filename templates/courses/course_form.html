@@ -1,0 +1,57 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    Crear curso
+{% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="row mt-5 mb-5 col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label }} {{ field }}
+                    </div>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <br/><span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                <table class="table-striped">
+                    {{ inlines.management_form }}
+                    {% for forms in inlines.forms %}
+                        <tr class="no_error service">
+                            <td>
+                                {% for fields in forms.visible_fields %}
+                                    <div class="form-group mb-3">
+                                        {{ fields.label}} {{ fields }}
+                                    </div>
+                                    {% if fields.errors %}
+                                         {% for error in fields.errors %}
+                                            <br/><span class="text-danger">{{ error }}</span>
+                                         {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <input class="btn btn-outline-danger my-3" type="button" id="add_more" value="Agregar campo"/>
+                <div class="row">
+                    <div class="col-6 offset-3 row my-2">
+                        {% block button %}
+                            <input class="btn btn-outline-danger" type="submit" value="Crear"/>
+                        {% endblock %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}
+{% block domready %}
+     $('#add_more').click(function() {
+        cloneMore('.service:last', 'service');
+    });
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'courses/lecture/list.html' %}
+{% load static %}
+{% block title %}Mis cursos {% endblock %}
+{% block stylesheet %}
+    {% static 'css/student_course_list.css' %}
+{% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="col-12 mt-5 mb-5">
+            <h1 class="text-center text-success">Mis cursos</h1>
+            <div class="col-12 d-flex justify-content-center bg-transparent">
+                <img src="{% static 'logo/icons8-physics-256.png' %}"
+                     class="img-fluid border border-5 border-success rounded-circle bg-dark"
+                     alt="f&iacute;sica"
+                     width="20%"
+                     height="20%"/>
+            </div>
+        </div>
+        <div id="course-list" class="module p-3 col-8 offset-2 d-flex justify-content-center mb-5 bt-5 rounded-3">
+            {% for course in object_list %}
+                <div id="course" class="col-12 d-flex p-1 m-3 card bg-dark border border-5 border-dark course-info">
+                <div class="card-text">
+                    <h3 class="text-center text-white">{{ course.title }}</h3>
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-primary" href="{% url "student_course_detail" course.id %}">Acceder al contenido</a>
+                    </div>
+                </div>
+                </div>
+            {% empty %}
+                <div class="d-flex align-items-center p-3">
+                    <h3 class="text-center">Usted no ha matriculado ning&uacute;n curso todav&iacute;a.<a href="{% url "course_list" %}"> Buscar cursos.</a></h3>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

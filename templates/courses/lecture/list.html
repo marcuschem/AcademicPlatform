@@ -1,0 +1,68 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    {% if subject %}
+        Cursos de {{ subject.title }}
+    {% else %}
+        Todos los cursos
+    {% endif %}
+{% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5 bg-body">
+        <div class="contents col-12 container-fluid mt-5 mb-5 p-5">
+            <div class="col-12 mb-2">
+                <h1 class="text-center text-success">
+                    {% if subject %}
+                        Cursos de {{ subject.title }}
+                    {% else %}
+                        Todos los cursos
+                    {% endif %}
+                </h1>
+            </div>
+            <div class="contents col-12 container-fluid mb-5 p-5 border border-success border-3 rounded-2">
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <h3 class="text-center">Asignaturas</h3>
+                    </div>
+                    <div id="modules" class="col-12 container-fluid">
+                        <div class="row d-flex justify-content-center" {% if not subject %} class="row d-flex justify-content-center mt-5 selected" {% endif %}>
+                            <a class="col-12 text-center" href="{% url "course_list" %}">Todos los cursos</a>
+                        </div>
+                        {% for s in subjects %}
+                            <div class="row d-flex justify-content-center" {% if subject == s %} class="row selected" {% endif %}>
+                                <a class="col-12 text-center" href="{% url "course_list_subject" s.slug %}">
+                                    {{ s.total_courses }} curso de {{ s.title }}.
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% for course in courses %}
+                {% with subject=course.topic %}
+                    <div class="module col-12 container-fluid mb-2 border border-success border-3 rounded-2">
+                        <div class="row container-fluid">
+                            <div class="row mb-2 mt-5">
+                                <div class="col-12 mb-2">
+                                    <h3 class="text-center text-success">
+                                        <a href="{% url "course_detail" course.slug %}">
+                                            {{ course.title }}
+                                        </a>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="d-flex row mb-2 container-fluid">
+                                <table class="mb-3 d-flex justify-content-center col-12 mx-1 text-center table-hover border-success border-2">
+                                    <tr class="d-table-row"><td class="d-table-cell text-center p-5"><b>Asignatura:</b></td><td class="d-table-cell text-center p-5"><a href="{% url "course_list_subject" subject.slug %}">{{ subject }}</a></td></tr>
+                                    <tr class="d-table-row"><td class="d-table-cell text-center p-5"><b>M&oacute;dulos:</b></td><td class="d-table-cell text-center p-5">{{ course.total_modules }}</td></tr>
+                                    <tr class="d-table-row"><td class="d-table-cell text-center p-5"><b>Profesor:</b></td><td class="d-table-cell text-center p-5">{{ course.author.first_name }} {{ course.author.last_name }}</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}
+             {% endfor %}
+        </div>
+    </main>
+{% endblock %}

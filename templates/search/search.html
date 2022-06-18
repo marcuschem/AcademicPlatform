@@ -1,0 +1,45 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    B&uacute;squeda
+{% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mb-5 m-lg-5 p-lg-5">
+        <div class="col-12 mt-5 mb-5">
+            <h1 class="mt-5 mb-5">Su b&uacute;squeda ha arrojado los siguientes resultados:</h1>
+            <div class="mt-3 mb-3">
+                <h3>Cursos</h3>
+                    {% for course in courses %}
+                        <a href="#">{{ course.title }}</a>
+                        <p>{{ course.overview }}</p>
+                    {% endfor %}
+            </div>
+            <div class="mt-3 mb-3">
+                <h3>M&oacute;dulos</h3>
+                    {% for module in modules %}
+                        <a href="#">{{ module.title }}</a>
+                        <p>{{ module.description }}</p>
+                    {% endfor %}
+            </div>
+            <div class="mt-3 mb-3">
+                <h3>Descargables</h3>
+                    {% for file in files %}
+                        <a href="#">{{ file.title }}</a>
+                    {% endfor %}
+            </div>
+            <div class="mt-3 mb-3">
+                <h3>Im&aacute;genes</h3>
+                    {% for image in images %}
+                        <a href="#">{{ image.title }}</a>
+                    {% endfor %}
+            </div>
+            <div class="mt-3 mb-3">
+                <h3>Videos</h3>
+                    {% for video in videos %}
+                        <a href="#">{{ video.title }}</a>
+                    {% endfor %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

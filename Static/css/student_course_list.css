@@ -1,0 +1,13 @@
+
+body {
+    background-color: rgba(230, 255, 100, 0.8);
+}
+
+#course-list {
+    border: 5px rgba(0, 0, 0, 1) groove;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+#course {
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}

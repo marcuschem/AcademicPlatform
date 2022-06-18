@@ -1,0 +1,66 @@
+{% extends 'menu/menu.html' %}
+{% load quiz %}
+{% block title %}Quiz. {{ module.title }} {% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+     <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="sign-up mt-5 mb-5 col-12 col-lg-10 offset-lg-1 rounded-3 border border-3 border-success mt-5 mb-5 p-5">
+            <div class="d-flex justify-content-center mt-5 mb-2">
+                <h1 class="text-success text-wrap mb-5"><b><strong>Quiz de curso completo</strong></b></h1>
+            </div>
+            <div class="d-flex justify-content-center mt-2 mb-2">
+                <p><b>Instrucciones Generales: </b>Conteste a las preguntas según se le solicita. Cuando termine,
+                presione el bot&oacute;n que se encuentra al final para obtener una calificaci&oacute;n.</p>
+            </div>
+            <form method="post">
+            {% for q in questions %}
+                <div class="mt-5 mb-2">
+                    {% with index=q|first %}
+                        <h5 class="text-success"><b>Pregunta {{ index }}</b></h5>
+                    {% endwith %}
+                </div>
+                {% csrf_token %}
+                    {% with question=q|last %}
+                        {% with content=question.contents.all %}
+                            {% with question_body=content|question_body %}
+                                {% for question_item in question_body %}
+                                    {{ question_item.render }}
+                                {% endfor %}
+                            {% endwith %}
+                            <div class="form-group mt-2 mb-2">
+                                {% with question_dict=content|possible_options %}
+                                    {% if question_dict.options|length > 1 and question_dict.answers|length == 1 %}
+                                        <p>Seleccione una opci&oacute;n:</p>
+                                        {% for question_item in question_dict.options %}
+                                            <input type="radio" class="form-check-inline" name="{{ question.title }}"
+                                                   id="option {{ question_item.id }}"
+                                                   value="{{ question_item.render }}"/>
+                                            <label class="form-label" for="option {{ question_item.id }}">{{ question_item.render }}</label><br/>
+                                        {% endfor %}
+                                    {% elif question_dict.options|length > 1 and question_dict.answers|length > 1 %}
+                                        <p>Seleccione una o m&aacute;s opciones:</p>
+                                        {% for question_item in question_dict.options %}
+                                            <input type="checkbox" class="form-check-inline" name="{{ question.title }}"
+                                                   id="option {{ question_item.id }}"
+                                                   value="{{ question_item.render }}"/>
+                                            <label class="form-label" for="option {{ question_item.id }}">{{ question_item.render }}</label><br/>
+                                        {% endfor %}
+                                    {% elif question_dict.options|length == 1 and question_dict.answers|length == 1 %}
+                                        {% with question_item=question_dict.options|first %}
+                                            <label class="form-label" for="option {{ question_item.id }}">Ingrese una respuesta:</label>
+                                            <textarea class="form-control" id="option {{ question_item.id }}" name="{{ question.title }}"></textarea>
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        {% endwith %}
+                    {% endwith %}
+                {% endfor %}
+                <div class="d-flex justify-content-center mt-5 mb-2">
+                    <input type="submit" class="btn btn-outline-success" value="Calificar"/>
+                </div>
+            </form>
+        </div>
+     </main>
+{% endblock %}

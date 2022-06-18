@@ -1,0 +1,30 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    Modificar m&oacute;dulo
+{% endblock %}
+{% block signup %} /{{ user_id }}/profile {% endblock %}
+{% block signuptext %} Perfil {% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="row mt-5 mb-5 col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">{{ field.label }}{{ field }}</div>
+                {% endfor %}
+                <div class="col-6 offset-3 row my-2">
+                    {% block button %}
+                        <input class="btn btn-outline-danger" type="submit" value="Editar"/>
+                    {% endblock %}
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}
+{% block domready %}
+     $('#add_more').click(function() {
+        cloneMore('.service:last', 'service');
+    });
+{% endblock %}

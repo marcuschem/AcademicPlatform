@@ -1,0 +1,11 @@
+certifi==2022.5.18.1
+Django==4.0.5
+django-braces==1.15.0
+django-memcache-status==2.2
+django-phone-field==1.8.1
+hashring==1.5.1
+Pillow==9.1.1
+python-memcached==1.59
+six==1.16.0
+tzdata==2022.1
+wincertstore==0.2

@@ -1,0 +1,26 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+{{ module.title }}
+{% endblock %}
+{% block signup %} /{{ user_id }}/profile {% endblock %}
+{% block signuptext %} Perfil {% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="container-fluid mt-5 mb-5 pt-5 pb-5">
+        <div class="container mt-5 mb-5 px-5">
+            <article class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <h1 class="text-center text-success">{{ module.title }}</h1>
+                </div>
+            </article>
+            <div class="nav m-5">
+                <div class="btn-group d-flex justify-content-center col-6 offset-3">
+                    <a href="{% url 'update_module_view' module.course_id module.id user_id %}" class="btn btn-outline-danger m-2">Actualizar</a>
+                    <a href="{% url 'manage_module_delete' module.course_id module.id %}" class="btn btn-outline-danger m-2">Eliminar</a>
+                    <a class="btn btn-outline-danger m-2" href="{% url 'module_content_list' module.course_id module.id %}">Manejar contenidos</a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

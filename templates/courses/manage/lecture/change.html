@@ -1,0 +1,29 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+{{ lecture.title }}
+{% endblock %}
+{% block signup %} /{{ user_id }}/profile {% endblock %}
+{% block signuptext %} Perfil {% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="container-fluid mt-5 mb-5 pt-5 pb-5">
+        <div class="container mt-5 mb-5 px-5">
+            <article class="row d-flex justify-content-center">
+                <div class="col-12 m-5">
+                    <h1 class="text-center text-success">{{ lecture.title }}</h1>
+                </div>
+                <section id="intro" class="col-12 d-flex justify-content-center">
+                    <p>{{ lecture.overview }}</p>
+                </section>
+            </article>
+            <div class="nav m-5">
+                <div class="btn-group d-flex justify-content-center col-6 offset-3">
+                    <a href="{% url 'manage_course_update' lecture.id %}" class="btn btn-outline-danger m-2">Actualizar</a>
+                    <a href="{% url 'manage_course_delete' lecture.id %}" class="btn btn-outline-danger m-2">Eliminar</a>
+                    <a class="btn btn-outline-danger m-2" href="{% url "module_content_list" lecture.id lecture.modules.first.id %}">Manejar contenidos</a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

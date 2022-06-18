@@ -1,0 +1,39 @@
+{% extends "menu/menu.html" %}
+    {% block title %}
+        {{ object.title }}
+    {% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="contents col-12 container-fluid mt-5 mb-5 p-5">
+            {% with subject=object.topic %}
+                <h1 class="col-12 text-center m-2 text-success">
+                    {{ object.title }}
+                </h1>
+                <div class="module col-12 container-fluid card border-3 border-success rounded-2">
+                    <div class="card-body" style="width: 100%; height: 100%;">
+                        <h2 class="card-text text-center">Resumen</h2>
+                        <p class="card-text mb-2">
+                            <span><b>Asignatura: </b></span><a href="{% url "course_list_subject" subject.slug %}">{{ subject.title }}</a>.<br/>
+                            <span><b>M&oacute;dulos: </b></span>{{ object.modules.count }}.<br/>
+                            <span><b>Instructor: </b></span>Instructor: {{ object.owner.get_full_name }}
+                        </p>
+                        <p class="card-text">{{ object.overview|linebreaks }}</p>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url "student_enroll_course" %}" method="post">
+                            {% csrf_token %}
+                            {{ enroll_form }}
+                            <div class="d-flex justify-content-center m-2">
+                                <input class="btn btn-outline-success m-2" type="submit" value="Matricular"/>
+                            </div>
+                        </form>
+                    {% else %}
+                        <a href="{% url "student_registration" %}" class="button">Registrarse para acceder</a>
+                    {% endif %}
+                </div>
+            {% endwith %}
+        </div>
+    </main>
+{% endblock %}

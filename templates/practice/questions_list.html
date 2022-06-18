@@ -1,0 +1,30 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    Preguntas
+{% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="container mt-5 mb-5 px-5">
+            <div class="row">
+                <h1 class="text-center">Bienvenido {{ name }}</h1>
+            </div>
+            <div class="row">
+            {% for question in questions %}
+                <div class="col-lg-4 col-md-6 py-3">
+                    <div class="card container" style="width: 18rem; height: 100%">
+                        <div class="card-body row">
+                            <h5 class="card-title">{{ question.title }}</h5>
+                        </div>
+                        <div class="row">
+                            <a href="{% url 'admin_questions' user_id question.id %}" class="btn btn-outline-danger col-6 offset-3 mb-3">Cambiar</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {% include 'pagination/pagination.html' with page=questions %}
+    </main>
+{% endblock %}

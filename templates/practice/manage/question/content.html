@@ -1,0 +1,124 @@
+{% extends "menu/menu.html" %}
+{% load practices %}
+{% block title %}
+    Pregunta {{ question.order|add:1 }}: {{ question.title }}
+{% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    {% with module=question.module %}
+        <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+            <div class="row mt-5 mb-5 col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5 my-2">
+                <h1 class="text-center text-success">{{ module.title }}</h1>
+            </div>
+            <div class="contents row col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5 my-2">
+                <div class="col-12">
+                    <h3 class="text-center text-success mt-2">Preguntas</h3>
+                </div>
+                <div class="col-12">
+                    <div id="questions" class="row py-3">
+                        {% for m in module.questions.all %}
+                            <div class="card container" style="width: 18rem; height: 100%" data-id="{{ m.id }}" {% if m == question %} class="selected card container"{% endif %}>
+                                <div class="card-body row">
+                                    <a class="btn btn-outline-success col-12" href="{% url "module_question_content_list" m.id %}">
+                                        <span>Pregunta <span class="order">{{ m.order|add:1 }}</span></span><span class="text-danger"> ({{ m.title }})</span></a>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="card container" style="width: 18rem; height: 100%">
+                                <div class="card-body row">
+                                    <p>
+                                        No hay preguntas todav&iacute;a.
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <a class="btn btn-outline-danger col-6 offset-3" href="{% url 'manage_question_update' question.module_id question.id %}">Editar pregunta</a>
+                </div>
+            </div>
+            <div class="module col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5 my-2">
+                <div class="col-12 mb-2">
+                    <h2 class="text-center text-success">Pregunta {{ question.order|add:1 }}: {{ question.title }}</h2>
+                </div>
+                <div class="col-12 mb-2">
+                    <h3 class="text-center">Contenido de la pregunta:</h3>
+                </div>
+                <div class="col-12 mb-2" id="question-contents">
+                    {% for contents in question.contents.all %}
+                    <div class="row py-3" data-id="{{ contents.id }}">
+                        {% with question_item=contents.question_item %}
+                            <div class="col-12">
+                                <p class="text-center">{{ question_item }}</p>
+                            </div>
+                            <div class="col-12">
+                                <a class="btn btn-outline-danger col-6 offset-3 mb-2" href="{% url "question_content_update" question.id question_item|model_name question_item.id %}">
+                                    Editar
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <form action="{% url "question_content_delete" contents.id %}" method="post">
+                                    <input class="btn btn-outline-danger col-6 offset-3" type="submit" value="Borrar">
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                        {% endwith %}
+                    </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <p class="text-center">No hay contenido.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-12 mb-2">
+                    <h3 class="text-center">Añadir nuevo contenido:</h3>
+                </div>
+                <div class="col-12 mb-2 content-types">
+                    {% block paths %}
+                        <a class="btn btn-outline-success col-6 offset-3 mb-2" href="{% url "question_content_create" question.id "questiontext" %}">Texto</a>
+                        <a class="btn btn-outline-success col-6 offset-3 mb-2" href="{% url "question_content_create" question.id "questionimage" %}">Imagen</a>
+                        <a class="btn btn-outline-success col-6 offset-3 mb-2" href="{% url "question_content_create" question.id "questionfile" %}">Archivo</a>
+                        <a class="btn btn-outline-success col-6 offset-3 mb-2" href="{% url "question_content_create" question.id "choice" %}">Se&ntilde;uelo</a>
+                        <a class="btn btn-outline-success col-6 offset-3 mb-2" href="{% url "question_content_create" question.id "answer" %}">Respuesta</a>
+                    {% endblock %}
+                 </div>
+            </div>
+        </main>
+    {% endwith %}
+{% endblock %}
+{% block domready %}
+    $(document).ready(function(){
+        $('#questions').sortable({
+            stop: function(event, ui) {
+            questions_order = {};
+            $('#questions').children().each(function(){
+        $(this).find('.order').text($(this).index() + 1);
+    });
+        $.ajax({
+            type: 'POST',
+             url: '{% url "question_order" %}',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(questions_order)
+        });
+        }
+        });
+        $('#question-contents').sortable({
+        stop: function(event, ui) {
+        contents_order = {};
+        $('#module-contents').children().each(function(){
+            contents_order[$(this).data('id')] = $(this).index();
+        });
+    $.ajax({
+        type: 'POST',
+        url: '{% url "contents_order" %}',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(contents_order),
+        });
+        }
+        });
+            });
+{% endblock %}

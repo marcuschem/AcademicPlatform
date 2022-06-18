@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-CR">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0"/>
+        <meta name="description"
+              lang="es-CR"
+              content="Sitio educativo con contenidos de Qu&iacute;mica. Inicio de sesi&oacute;n"/>
+        <meta name="keywords"
+              lang="es-CR"
+              content="Qu&iacute;mica, educativo, tutoriales"/>
+        <meta name="author"
+              lang="es-CR"
+              content="Lic. Marcus Vinicio Mora Salas"/>
+        <link href="{% static 'icons/icons8-atoms-flat-land-32.png' %}"
+              sizes="16x16"
+              rel="icon"/>
+        <link href="{% static 'css/normalize.css' %}"
+              rel="stylesheet"
+              type="text/css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+              crossorigin="anonymous"/>
+        <link href="{% static 'css/menu.css' %}" rel="stylesheet" type="text/css"/>
+        <title>
+            {% block title %}
+                Registro
+            {% endblock %}
+        </title>
+    </head>
+    <body class="container-fluid bg-dark text-white">
+        <main class="row mt-3 mb-3 m-lg-5 p-lg-5">
+            <h2 class="col-12 text-center">Reg&iacute;strese en Qu&iacute;mica</h2>
+            <div class="col-4 offset-4 d-flex justify-content-center">
+                <img class="img-fluid rounded-circle border border-5 border-success bg-dark" src="{% static 'logo/icons8-atoms-128.png'%}" alt="logo"/>
+            </div>
+            <div class="bg-body text-dark align-items-baseline mt-3 mb-3 col-12 col-lg-6 offset-lg-3 rounded-3 border border-5 border-success p-3">
+                <div class="row"></div>
+                {% if form.errors %}
+                    <div class="errornote">
+                        <p class="text-danger">Ingrese datos v&aacute;lidos. ¿Ya tiene cuenta?
+                            <a href={% url 'login' %}>
+                                Inicie sesi&oacute;n
+                            </a>
+                        </p>
+                    </div>
+                {% endif %}
+                <form class="justify-self-center" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group m-4">
+                            {{ field.label }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success m-2">Iniciar sesi&oacute;n</button>
+                    </div>
+                </form>
+            </div>
+            <div class="row align-items-baseline mt-3 mb-3 col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-2">
+                <p class="user-select-all text-center m-0">
+                ¿Ya tiene cuenta?
+                    <a href="{% url "login" %}" class="text-decoration-none">
+                        Inicie sesi&oacute;n
+                    </a>
+                </p>
+            </div>
+        </main>
+    </body>
+</html>

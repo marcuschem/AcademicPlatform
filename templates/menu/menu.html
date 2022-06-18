@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-CR">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" lang="es-CR" content="sitio educativo con contenidos de Qu&iacute;mica"/>
+        <meta name="keywords" lang="es-CR" content="Química, educativo, tutoriales"/>
+        <meta name="author" lang="es-CR" content="Lic. Marcus Vinicio Mora Salas"/>
+        <link href="{% static 'icons/icons8-atoms-flat-land-32.png' %}"
+              sizes="32x32"
+              rel="icon"/>
+        <link href="{% static 'css/normalize.css' %}"
+              rel="stylesheet"
+              type="text/css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+              crossorigin="anonymous"/>
+        <link href="{% static 'css/menu.css' %}"
+              rel="stylesheet"
+              type="text/css"/>
+        <link href="{% block stylesheet %}{% endblock %}"
+              rel="stylesheet"
+              type="text/css"/>
+        <title>
+            {% block title %}
+                P&aacute;gina de inicio
+            {% endblock %}
+        </title>
+    </head>
+    <body class="container-fluid">
+        <header class="position-fixed row container-fluid m-0 bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bd-navbar">
+                <a class="navbar-brand" href="/change/">
+                    <img class="img-fluid rounded-circle border border-3 border-success bg-dark" src="{% static 'logo/icons8-atoms-128.png'%}"
+                         height="54"
+                         width="54"
+                         alt="logo"/>
+                    Qu&iacute;mica
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active" aria-current="page">
+                            <a class="nav-link" href="/home">Inicio<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'course_list' %}">Cursos<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Videos<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'course_quiz_list_view' %}">Ejercicios<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Tablas<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">La tabla peri&oacute;dica<span class="sr-only"></span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Contactar tutor<span class="sr-only"></span></a>
+                        </li>
+                    </ul>
+                    <form class="d-flex my-2 my-lg-0" action="{% url 'search_bar_get_view' %}" method="GET">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2 mx-1" type="search" name="search" placeholder="Buscar" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                    </form>
+                </div>
+                <div class="d-inline-flex">
+                    <a href="{% block signup %} {% url 'profile_view' request.user.id %} {% endblock %}" class="btn btn-outline-success mx-1 my-2 my-lg-0">{% block signuptext %}Perfil{% endblock %}</a>
+                    <a href="{% block login %}/login{% endblock %}" class="btn btn-outline-danger mx-1 my-2 my-lg-0">{% block logintext %}Iniciar sesi&oacute;n{% endblock %}</a>
+                </div>
+            </nav>
+        </header>
+        {% block body %}
+        {% endblock %}
+        <footer class="bg-dark text-white row container-fluid m-0 position-fixed" id="footer">
+            <div class="footer pb-0">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary" href="#">Acerca de nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary" href="#">Cont&aacute;ctenos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-secondary" href="#">2022 &copy; Lic. Marcus Mora Salas</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+                crossorigin="anonymous"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
+        {% block script %}
+            <script type="text/javascript" src="{% static 'js/clonemore.js' %}"></script>
+        {% endblock %}
+        <script>
+            {% block domready %}
+            {% endblock %}
+        </script>
+    </body>
+</html>

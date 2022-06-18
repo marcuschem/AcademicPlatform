@@ -1,0 +1,19 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    Borrar contenido
+{% endblock %}
+{% block signup %} /{{ user_Id }}/profile {% endblock %}
+{% block signuptext %} Perfil {% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="row mt-5 mb-5 m-lg-5 p-lg-5">
+        <div class="row mt-5 mb-5 col-12 col-lg-6 offset-lg-3 rounded-3 border border-3 border-success p-5">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p class="text-danger">¿Está seguro que desea borrar el item "{{ object.title }}"?</p>
+                <input class="btn btn-danger" type="submit" value="Confirmar"/>
+            </form>
+        </div>
+    </main>
+{% endblock %}

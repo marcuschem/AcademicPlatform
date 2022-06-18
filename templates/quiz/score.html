@@ -1,0 +1,15 @@
+{% extends 'menu/menu.html' %}
+{% block title %}
+    Su calificaci&oacute;n
+{% endblock %}
+{% block login %}/logout{% endblock %}
+{% block logintext %} Salir {% endblock %}
+{% block body %}
+    <main class="container-fluid mt-5 mb-5 pt-5 pb-5">
+        <div class="row mt-5 mb-5 pt-5 pb-5">
+            <div class="col-12 d-flex justify-content-center mt-5 mb-5 pt-5 pb-5">
+                <p>Estimado {{ student.first_name }}. Su calificaci&oacute;n: <span class="text-danger">{{ score }}</span></p>
+            </div>
+        </div>
+    </main>
+{% endblock %}
