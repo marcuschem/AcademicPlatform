@@ -1,12 +1,9 @@
 from pathlib import Path
 
-
 from django.urls import reverse_lazy
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 
@@ -17,7 +14,6 @@ SECRET_KEY = 'django-insecure-ftg!ytd5od=q=$&lp+ykfelj$6&^q_w5qkm+_(%+i%z_r@9t)m
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -78,9 +74,7 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'AcademicPlatform.wsgi.application'
-
 
 # Database
 DATABASES = {
@@ -111,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 
 LANGUAGE_CODE = 'es-CR'
@@ -123,7 +116,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 
@@ -158,3 +150,8 @@ CACHES = {
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.authentication.EmailAuthBackend',
+]
